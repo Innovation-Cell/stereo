@@ -1,0 +1,13 @@
+<launch>
+	<arg name="camera_pair" value="LC" />
+	
+	<node pkg="rosbag" type="play" name="bumblebee_bagfiles_player" args=" -l -r 0.05 /home/sedrica/stereo_ws/src/plane_fitting/data/First_Run/$(arg camera_pair).bag" />
+
+	<node pkg="plane_fitting" type="planefitting" name="basic_fitting">
+	 	<param name="pointcloud_topic" value="/camera/stereo_camera_$(arg camera_pair)/points2" />
+	</node>
+	
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find plane_fitting)/launch/SAC.rviz"/>        
+</launch>
+
+	
