@@ -3,3 +3,4 @@ devel/
 data/
 *~
 ./CMakeLists.txt
+!./*/CMakeLists.txt
