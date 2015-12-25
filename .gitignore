@@ -2,5 +2,4 @@ build/
 devel/
 data/
 *~
-./CMakeLists.txt
-!./*/CMakeLists.txt
+CMakeLists.txt
