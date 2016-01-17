@@ -11,8 +11,8 @@
 #include <pcl/ModelCoefficients.h>
 
 
-bool allCloudsProcessed = FALSE;
-static bool LC_called = FALSE, CR_called = FALSE, LR_called = FALSE;
+bool allCloudsProcessed = 0;
+static bool LC_called = 0, CR_called = 0, LR_called = 0;
 
 static pcl::PointCloud<pcl::PointXYZ> LC_cloud, CR_cloud, LR_cloud;
 
@@ -39,11 +39,11 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "planeSegmenter");
   ros::NodeHandle n;
 
-  ros::Publisher concatenated_visualizer = n.advertise<sensor_msgs::PointClouds2>("/concatenated_pointCloud", 1);
+  ros::Publisher concatenated_visualizer = n.advertise<sensor_msgs::PointCloud2>("/concatenated_pointCloud", 1);
 
-  ros::Subscriber sub = n.subscribe("/camera/stereo_camera_LC/points2", 1, LC_callback);
-  ros::Subscriber sub = n.subscribe("/camera/stereo_camera_CR/points2", 1, CR_callback);
-  ros::Subscriber sub = n.subscribe("/camera/stereo_camera_LR/points2", 1, LR_callback);
+  ros::Subscriber sub_LC = n.subscribe("/camera/stereo_camera_LC/points2", 1, LC_callback);
+  ros::Subscriber sub_CR = n.subscribe("/camera/stereo_camera_CR/points2", 1, CR_callback);
+  ros::Subscriber sub_LR = n.subscribe("/camera/stereo_camera_LR/points2", 1, LR_callback);
 
   while(ros::ok()){
     ros::spinOnce();
@@ -60,9 +60,9 @@ int main(int argc, char **argv)
 
       concatenated_visualizer.publish(finalCloud);
 
-      LC_called = FALSE;
-      CR_called = FALSE;
-      LR_called = FALSE;				
+      LC_called = 0;
+      CR_called = 0;
+      LR_called = 0;				
     }
   }
 
