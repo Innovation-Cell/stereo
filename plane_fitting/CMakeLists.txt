@@ -138,6 +138,7 @@ link_directories(
 
 ## Declare a C++ executable
  add_executable(planefitting src/simplePlaneFitting.cpp)
+ add_executable(concatenator src/concatenator.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -145,6 +146,10 @@ link_directories(
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(planefitting
+   ${catkin_LIBRARIES}
+   ${PCL_LIBRARIES}
+ )
+ target_link_libraries(concatenator
    ${catkin_LIBRARIES}
    ${PCL_LIBRARIES}
  )

@@ -19,18 +19,23 @@ static pcl::PointCloud<pcl::PointXYZ> LC_cloud, CR_cloud, LR_cloud;
 
 void LC_callback(const sensor_msgs::PointCloud2ConstPtr& input)
 {
+  //ROS_INFO("LC Called back!");
 	if((input->height*input->width)>0) pcl::fromROSMsg(*input,LC_cloud);
-		
+	LC_called = 1;
 }
 
 void CR_callback(const sensor_msgs::PointCloud2ConstPtr& input)
 {
+  //ROS_INFO("CR Called back!");
 	if((input->height*input->width)>0) pcl::fromROSMsg(*input,CR_cloud);	
+  CR_called = 1;
 }
 
 void LR_callback(const sensor_msgs::PointCloud2ConstPtr& input)
 {
-	if((input->height*input->width)>0) pcl::fromROSMsg(*input,LR_cloud);	
+  //ROS_INFO("LR Called back!");
+	if((input->height*input->width)>0) pcl::fromROSMsg(*input,LR_cloud);
+  LR_called = 1;	
 }
 
 
@@ -49,6 +54,8 @@ int main(int argc, char **argv)
     ros::spinOnce();
 
     if(LC_called&&CR_called&&LR_called){
+      //ROS_INFO("Entered publishsing loop");
+
       pcl::PointCloud<pcl::PointXYZ> final_cloud;	
 
       final_cloud += LC_cloud;
@@ -57,6 +64,8 @@ int main(int argc, char **argv)
 
       sensor_msgs::PointCloud2 finalCloud;
       pcl::toROSMsg(final_cloud, finalCloud);
+      finalCloud.header.frame_id = "/base_link";
+      finalCloud.header.stamp = ros::Time::now();
 
       concatenated_visualizer.publish(finalCloud);
 
